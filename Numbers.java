@@ -1,49 +1,46 @@
- import java.util.Random;
+import java.util.Random;
 
-public class Numbers.java
+public class Numbers
 {
-    pubic static void main(String[] args)
+    private int randomNum;
+
+    public void setRandomNum(int r)
     {
-        private int randomNum;
+        randomNum = r;
+    }
+    public int getRandomNum()
+    {
+        return randomNum;
+    }
 
-        public void setRandomNum(int r)
+    public void generateNumber()
+    {
+        Random numGenerator = new Random();
+        randomNum = numGenerator.nextInt(101);
+    }
+
+    public boolean compareNumber(int guess)
+    {
+        boolean result;
+
+        if (guess == randomNum)
         {
-            randomNum = r;
+            result = true;
+            System.out.println("Congratutions, you guessed the number!");
+            return result;
         }
-        public int getRandomNum()
+        else if(guess > randomNum)
         {
-            return randomNum;
+            result = false;
+            System.out.println("I'm sorry, that guess was too high.");
+            return result;
         }
-
-        public void generateNumber()
+        else
         {
-            Random numGenerator = new Random();
-            randomNum = numGenerator.nextInt(101);
+            result = false;
+            System.out.println("I'm sorry, that guess was too low.");
+            return result;
         }
 
-        public boolean compareNumber(int guess)
-        {
-            boolean result;
-
-            if (guess = randomNum)
-            {
-                result = true;
-                System.out.println("Congratutions, you guessed the Number!");
-                return result;
-            }
-            else if(guess > randomNum)
-            {
-                result = false;
-                System.out.println("I'm sorry, that guess was too high.");
-                return result;
-            }
-            else
-            {
-                result = false;
-                System.out.println("I'm sorry, that guess was too low.");
-                return result;
-            }
-
-        }
     }
 }
