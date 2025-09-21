@@ -5,6 +5,22 @@ public class Person
         private String firstName;
         private String lastName;
 
+        public Person()
+        {
+            firstName = "";
+            lastName = "";
+        }
+        public Person(String f)
+        {
+            firstName = f;
+            lastName = "";
+        }
+        public Person(String f, String l)
+        {
+            firstName = f;
+            lastName = l;
+        }
+
         public void setFirstName(String f);
         {
             f = firstName;
