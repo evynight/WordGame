@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Numbers
 {
-    private int randomNum;
+    private static int randomNum;
 
     public void setRandomNum(int r)
     {
@@ -26,7 +26,7 @@ public class Numbers
         if (guess == randomNum)
         {
             result = true;
-            System.out.println("Congratutions, you guessed the number!");
+            System.out.println("Congratulations, you guessed the number!");
             return result;
         }
         else if(guess > randomNum)
