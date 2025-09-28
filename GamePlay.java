@@ -24,18 +24,17 @@ public class GamePlay
         {
             System.out.print("Enter your last name >> ");
             player.setLastName(keyboard.nextLine());
-
         }
 
         System.out.println();
         System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
                         + ": Let's start the game!");
 
-        gameHost.randomizeNum();
         Turn guessGame = new Turn();
         boolean gameEnd = false;
         boolean continuePlaying = false;
-
+        
+        gameHost.randomizeNum();
         while (gameEnd != true && continuePlaying != true)
         {
             while(gameEnd != true)
@@ -57,8 +56,7 @@ public class GamePlay
                 continuePlaying  = true;
                 System.out.print(gameHost.getFirstName() + " " + gameHost.getLastName()
                                 + ": You finished with $" + player.getMoney() + ".");
-                System.out.println(/*gameHost.getFirstName() + " " + gameHost.getLastName()
-                                + */" Thank you for playing!\n");
+                System.out.println(" Thank you for playing!\n");
             }
         }
     }

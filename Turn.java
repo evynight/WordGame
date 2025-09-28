@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Turn
 {
-    final int moneyWin = 100;
-    final int moneyLose = 10;
+    final int MONEYWIN = 100;
+    final int MONEYLOSE = 10;
     private int playerGuess;
     Scanner keyboard = new Scanner(System.in);
 
@@ -20,20 +20,16 @@ public class Turn
         Numbers compare = new Numbers();
         if (compare.compareNumber(playerGuess) == true)
         {
-            player.setMoney(player.getMoney() + moneyWin);
+            player.setMoney(player.getMoney() + MONEYWIN);
             System.out.println(player.toString());
-            //Test string
             System.out.println();
-            //
             return true;
         }
         else
         {
-            player.setMoney(player.getMoney() - moneyLose);
+            player.setMoney(player.getMoney() - MONEYLOSE);
             System.out.println(player.toString());
-            //Test string
             System.out.println();
-            //
             return false;
         }
     }
