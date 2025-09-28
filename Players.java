@@ -30,8 +30,17 @@ public class Players extends Person
     @Override
     public String toString()
     {
-        String playerInfo = super.getFirstName() + " " + super.getLastName()
-                    + "'s current winnngs: $" + money;
-        return playerInfo;
+        if(super.getLastName().equals(""))
+        {
+            String playerInfo = super.getFirstName() + "'s current winnings: $"
+                        + money;
+            return playerInfo;
+        }
+        else
+        {
+            String playerInfo = super.getFirstName() + " " + super.getLastName()
+                        + "'s current winnings: $" + money;
+            return playerInfo;
+        }
     }
 }

@@ -4,43 +4,62 @@ public class GamePlay
 {
     public static void main(String[] args)
     {
-        String firstName;
-        String lastName;
+        String hostFirstName = "Keyboard";
+        String hostLastName = "Karl";
         String enterLast;
 
-        Person player = new Person();
-
+        Hosts gameHost = new Hosts(hostFirstName, hostLastName);
+        gameHost.randomizeNum();
+        Players player = new Players();
         Scanner keyboard = new Scanner(System.in);
 
+        System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
+                         + ": Welcome to the Number Guessing Game!");
+
         System.out.print("Enter your name >> ");
-        firstName = keyboard.nextLine();
+        player.setFirstName(keyboard.nextLine());
         System.out.print("Would you like to enter your last name? (Y/N) >> ");
         enterLast = keyboard.nextLine();
         if (enterLast.startsWith("Y") || enterLast.startsWith("y"))
         {
             System.out.print("Enter your last name >> ");
-            lastName = keyboard.nextLine();
-            player.setFirstName(firstName);
-            player.setLastName(lastName);
-        }
-        else
-        {
-            player.setFirstName(firstName);
+            player.setLastName(keyboard.nextLine());
+
         }
 
-        Numbers winningNum = new Numbers();
-        winningNum.generateNumber();
-        int playerGuess;
-        
-        System.out.println("I'm thinking of a number between 0 and 100.");
-        System.out.print("Try to guess it, " + player.getFirstName() + 
-                                " " + player.getLastName() + " >> ");
-        playerGuess = keyboard.nextInt();
-        while (winningNum.compareNumber(playerGuess) == false)
+        System.out.println();
+        System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
+                        + ": Let's start the game!");
+
+        gameHost.randomizeNum();
+        Turn guessGame = new Turn();
+        boolean gameEnd = false;
+        boolean continuePlaying = false;
+
+        while (gameEnd != true && continuePlaying != true)
         {
-            System.out.print("Guess again, " + player.getFirstName() + " " + 
-                                player.getLastName() + " >> ");
-            playerGuess = keyboard.nextInt();
+            while(gameEnd != true)
+            {
+                gameEnd = guessGame.takeTurn(player, gameHost);
+            }
+            System.out.print("Would you like to continue Playing? (Y/N) >> ");
+            String contPlay = keyboard.nextLine();
+            if (contPlay.startsWith("Y") || contPlay.startsWith("y"))
+            {
+                gameHost.randomizeNum();
+                gameEnd = false;
+                continuePlaying = false;
+                System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
+                                + ": On to the next round!\n");
+            }
+            else
+            {
+                continuePlaying  = true;
+                System.out.print(gameHost.getFirstName() + " " + gameHost.getLastName()
+                                + ": You finished with $" + player.getMoney() + ".");
+                System.out.println(/*gameHost.getFirstName() + " " + gameHost.getLastName()
+                                + */" Thank you for playing!\n");
+            }
         }
     }
 }

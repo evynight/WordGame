@@ -1,11 +1,21 @@
 public class Hosts extends Person
 {
-    public int randomizeNum()
+    public Hosts()
+    {
+        super();
+    }
+    public Hosts(String f)
+    {
+        super(f);
+    }
+    public Hosts(String f, String l)
+    {
+        super(f, l);
+    }
+    
+    public void randomizeNum()
     {
         Numbers randomNum = new Numbers();
         randomNum.generateNumber();
-        //int hostNum = randomNum.getRandomNum();
-        //return hostNum;
-        return randomNum.getRandomNum();
     }
 }
