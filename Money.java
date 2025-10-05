@@ -3,7 +3,7 @@ public class Money implements Award
     private final int MONEYWIN = 100;
     private final int MONEYLOSE = 10;
     
-    public int displayWinning(Players player, boolean guess)
+    public int displayWinnings(Players player, boolean guess)
     {
         if(guess == true)
         {
