@@ -12,7 +12,7 @@ public class GamePlay
         Scanner keyboard = new Scanner(System.in);
         Hosts gameHost = new Hosts(hostFirstName, hostLastName);
         gameHost.randomizeNum();
-        Person[] currentPlayers = new Person[PLAYERCOUNT];
+        Players[] currentPlayers = new Players[PLAYERCOUNT];
 
         System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
                          + ": Welcome to the Number Guessing Game!");
@@ -21,7 +21,7 @@ public class GamePlay
         {
             System.out.print("Player " + (x + 1) + ": Enter your name >> ");
             currentPlayers[x] = new Players(keyboard.nextLine());
-            System.out.print("Player " + (x + 1) + "Would you like to enter your last name? (Y/N) >> ");
+            System.out.print("Player " + (x + 1) + ": Would you like to enter your last name? (Y/N) >> ");
             enterLast = keyboard.nextLine();
             if(enterLast.startsWith("Y") || enterLast.startsWith("y"))
             {
@@ -66,8 +66,13 @@ public class GamePlay
             else
             {
                 gameEnd  = true;
-                System.out.print(gameHost.getFirstName() + " " + gameHost.getLastName()
-                                + ": You finished with $" + player.getMoney() + ".");
+                System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
+                                + ": Here are the final results: ");
+                for(int x = 0; x < currentPlayers.length; x++)
+                {
+                    System.out.println(currentPlayers[x].getFirstName() + " " + currentPlayers[x].getLastName() +
+                                    " finished with $" + currentPlayers[x].getMoney() + ".");
+                }
                 System.out.println(" Thank you for playing!\n");
             }
         }
