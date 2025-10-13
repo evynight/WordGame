@@ -1,11 +1,12 @@
 public class Phrases
 {
-    private String gamePhrase = "";
-    private StringBuilder playingPhrase = null;
+    private static String gamePhrase = "";
+    private static StringBuilder playingPhrase = null;
 
     public void setGamePhrase(String g)
     {
-        gamePhrase =g;
+        gamePhrase = g;
+        setPlayingPhrase();
     }
     public String getGamePhrase()
     {

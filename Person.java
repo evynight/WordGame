@@ -35,4 +35,15 @@ public class Person
     {
         return lastName;
     }
+    public String getName()
+    {
+        if(lastName.isEmpty())
+        {
+            return firstName;
+        }
+        else
+        {
+            return firstName + " " + lastName;
+        }
+    }
 }

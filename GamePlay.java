@@ -11,11 +11,12 @@ public class GamePlay
 
         Scanner keyboard = new Scanner(System.in);
         Hosts gameHost = new Hosts(hostFirstName, hostLastName);
-        gameHost.randomizeNum();
+
         Players[] currentPlayers = new Players[PLAYERCOUNT];
 
-        System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
-                         + ": Welcome to the Number Guessing Game!");
+        System.out.println(gameHost.getName()+ ": Welcome to the Guess That Phrase Game!");
+        System.out.println("I'm your host, " + gameHost.getName() + ".");
+        System.out.println("Why don't you introduce yourselves?\n");
 
         for(int x = 0; x < currentPlayers.length; x++)
         {
@@ -30,15 +31,15 @@ public class GamePlay
             }
         }
 
-        System.out.println("\n" + gameHost.getFirstName() + " " + gameHost.getLastName()
-                        + ": Let's start the game!");
+        System.out.println("\n" + gameHost.getName() + ": Let's start the game!");
 
         Turn guessGame = new Turn();
+        Phrases gamePhrase = new Phrases();
+        gamePhrase.setGamePhrase(gameHost.getHostPhrase());
         boolean roundEnd = false;
         boolean playerWin = false;
         boolean gameEnd = false;
         
-        gameHost.randomizeNum();
         while(roundEnd != true && gameEnd != true)
         {
         while(roundEnd != true || playerWin != true)
@@ -57,22 +58,21 @@ public class GamePlay
             String contPlay = keyboard.nextLine();
             if (contPlay.startsWith("Y") || contPlay.startsWith("y"))
             {
-                gameHost.randomizeNum();
+                gamePhrase.setGamePhrase(gameHost.getHostPhrase());
                 roundEnd = false;
                 gameEnd = false;
-                System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
-                                + ": On to the next round!\n");
+                System.out.println(gameHost.getName() + ": On to the next round!\n");
             }
             else
-            {
+            {   //Do I even want to keep this block?
+                /**
                 gameEnd  = true;
-                System.out.println(gameHost.getFirstName() + " " + gameHost.getLastName()
-                                + ": Here are the final results: ");
+                System.out.println(gameHost.getName() + ": Here are the final results: ");
                 for(int x = 0; x < currentPlayers.length; x++)
                 {
-                    System.out.println(currentPlayers[x].getFirstName() + " " + currentPlayers[x].getLastName() +
+                    System.out.println(currentPlayers[x].getName() +
                                     " finished with $" + currentPlayers[x].getMoney() + ".");
-                }
+                }*/
                 System.out.println(" Thank you for playing!\n");
             }
         }

@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Turn
 {
-    private int playerGuess;
+    private String playerGuess;
     Scanner keyboard = new Scanner(System.in);
 
     public boolean takeTurn(Players player, Hosts host)
@@ -14,7 +14,7 @@ public class Turn
         System.out.print("Your turn to guess, " + player.getFirstName() + 
                             " " + player.getLastName() + " >> ");
         
-        playerGuess = keyboard.nextInt();
+        playerGuess = keyboard.nextLine();
 
         Random prizeDecide = new Random();
         Numbers compare = new Numbers();
