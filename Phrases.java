@@ -27,24 +27,29 @@ public class Phrases
     {
         return playingPhrase.toString();
     }
-    public void findLetters(String guess) throws MultipleLettersException
+    public void findLetters(String g) throws MultipleLettersException
     {
-        try
+        String guess = g;
+        char fillIn = guess.charAt(0);
+        
+        if(guess.length() > 1)
         {
-
+            throw(new MultipleLettersException());
         }
-        catch(MultipleLettersException m)
+        else
         {
-            System.out.println(m.getMessage());
-        }
-        finally
-        {
-            String nowPhrase = playingPhrase.toString();
-            if(nowPhrase.indexOf('_') == -1)
+            for (int y = 0; y < gamePhrase.length(); y++)
             {
-                System.out.println("Congratulations, you completed the phrase! " +
-                            "You win this game's prize!");
+                if(gamePhrase.charAt(y) == fillIn)
+                {
+                    playingPhrase.setCharAt(y, fillIn);
+                }
             }
+        }
+        if(playingPhrase.toString().indexOf('_') == -1)
+        {
+            System.out.println("Congratulations, you completed the phrase! " +
+                        "You win this game's prize!");
         }
     }
 }
