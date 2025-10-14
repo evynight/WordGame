@@ -7,11 +7,15 @@ public class Physical implements Award
                             "Samsung Stainless Steel Kitchen Appliance Set",
                             "LG 80-Inch 4K OLED TV",
                             "Unopened Playstation 2 We Found Stuck Behind a Shelf in Storage"};
+    private Random numGenerator = new Random();
 
-    public int getRandomPrize()
+    public int randomizePrize()
     {
-        Random numGenerator = new Random();
         return numGenerator.nextInt(PRIZECOUNT);
+    }
+    public String receivePrize()
+    {
+        return prize[randomizePrize()];
     }
     public int displayWinnings(Players player, boolean guess)
     {
@@ -19,14 +23,14 @@ public class Physical implements Award
         {
             System.out.println("Surprise, " + player.getFirstName() +
                             " " + player.getLastName() + "! You won this round's " +
-                            "bonus prize of this " + prize[getRandomPrize()] +"!");
+                            "bonus prize of this " + receivePrize() +"!");
             return 0;
         }
         else
         {
             System.out.println("Oh, so sorry, " + player.getFirstName() +
                             " " + player.getLastName() + ". Looks like you missed this " +
-                            "round's bonus prize of this " + prize[getRandomPrize()] + ".");
+                            "round's bonus prize of this " + receivePrize() + ".");
             return 0;
         }
     }

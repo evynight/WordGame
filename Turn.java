@@ -3,38 +3,42 @@ import java.util.Random;
 
 public class Turn
 {
-    private String playerGuess;
+    private String playerChoice;
     Scanner keyboard = new Scanner(System.in);
+    Phrases gamePhrase = new Phrases();
 
     public boolean takeTurn(Players player, Hosts host)
     {
-
-        System.out.println(host.getFirstName() + " " + host.getLastName() +
-                            ": I'm thinking of a number between 0 and 100.");
-        System.out.print("Your turn to guess, " + player.getFirstName() + 
-                            " " + player.getLastName() + " >> ");
+        System.out.println(gamePhrase.getPlayingPhrase());
+        System.out.print(host.getName() + ": Choose a letter, " + 
+                            player.getName() + " >> ");
         
-        playerGuess = keyboard.nextLine();
+        playerChoice = keyboard.nextLine();
 
-        Random prizeDecide = new Random();
-        Numbers compare = new Numbers();
-        if (prizeDecide.nextInt(5) == prizeDecide.nextInt(5))
+        try
         {
-            Money prizeMoney = new Money();
-            boolean result = compare.compareNumber(playerGuess);
-            int resultMoney = prizeMoney.displayWinnings(player, result);
-            player.setMoney(player.getMoney() + resultMoney);
-            System.out.println(player.toString() + "\n");
-            return result;
+            if(gamePhrase.findLetters(playerChoice))
+            {
+                System.out.println("Looks like we have a(n) " + playerChoice + "!" + 
+                                    "It's still your turn.");
+                return true;
+            }
+            else
+            {
+                System.out.println("Too bad, looks like there isn't a(n) "+ playerChoice +
+                                    "Next player's turn!");
+                return false;
+            }
         }
-        else
+        catch(MultipleLettersException m)
         {
-            Physical prizePhys = new Physical();
-            boolean result = compare.compareNumber(playerGuess);
-            int resultPhys = prizePhys.displayWinnings(player, result);
-            player.setMoney(player.getMoney() + resultPhys);
-            System.out.println(player.toString() + "\n");
-            return result;
+            System.out.println(m.getMessage() + ". Sorry, that means your turn is up.");
+            return false;
+        }
+        catch(NumberOrSymbolException i)
+        {
+            System.out.println(i.getMessage() + "Sorry, that means your turn is up.");
+            return false;
         }
     }
 }

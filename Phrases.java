@@ -28,7 +28,7 @@ public class Phrases
     {
         return playingPhrase.toString();
     }
-    public void findLetters(String g) throws MultipleLettersException
+    public boolean findLetters(String g) throws MultipleLettersException, NumberOrSymbolException
     {
         String guess = g;
         char fillIn = guess.charAt(0);
@@ -37,20 +37,25 @@ public class Phrases
         {
             throw(new MultipleLettersException());
         }
-        else
+        else if(!(Character.isLetter(fillIn)))
+        {
+            throw(new NumberOrSymbolException());
+        }
+
+        if(getGamePhrase().toLowerCase().contains(guess.toLowerCase()))
         {
             for (int y = 0; y < gamePhrase.length(); y++)
             {
-                if(gamePhrase.charAt(y) == fillIn)
+                if(Character.toLowerCase(gamePhrase.charAt(y)) == Character.toLowerCase(fillIn))
                 {
                     playingPhrase.setCharAt(y, fillIn);
                 }
             }
+            return true;
         }
-        if(playingPhrase.toString().indexOf('_') == -1)
+        else
         {
-            System.out.println("Congratulations, you completed the phrase! " +
-                        "You win this game's prize!");
+            return false;
         }
     }
 }

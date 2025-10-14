@@ -1,6 +1,7 @@
 public class Players extends Person
 {
     private int money;
+    private String prize;
 
     public Players()
     {
@@ -25,6 +26,15 @@ public class Players extends Person
     public int getMoney()
     {
         return money;
+    }
+
+    public void setPrize(String p)
+    {
+        prize = p;
+    }
+    public String getPrize()
+    {
+        return
     }
 
     @Override
