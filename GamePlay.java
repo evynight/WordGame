@@ -16,7 +16,7 @@ public class GamePlay
 
         System.out.println(gameHost.getName()+ ": Welcome to a game of Phrase Finder!");
         System.out.println("I'm your host, " + gameHost.getName() + ".");
-        System.out.println("Why don't you introduce yourselves?\n");
+        System.out.println("\nWhy don't you introduce yourselves?");
 
         for(int x = 0; x < currentPlayers.length; x++)
         {
@@ -40,20 +40,19 @@ public class GamePlay
             }
             else
             {
-                System.out.print(" and " + currentPlayers[x].getName() + "!");
+                System.out.print("and " + currentPlayers[x].getName() + "!\n");
             }
         }
-        System.out.println("\nI'm going to provide a secret phrase. Each of you will take " +
-                            "turns trying to find what it is one letter at a time.\n" +
-                            "Make sure it is only a single letter! Otherwise you forfeit your turn.\n" +
-                            "No special characters, either. Letters only!" +
-                            "Is everyone ready? Let's get started!");
+        System.out.println("\n" + gameHost.getName() + ": I'm going to provide a secret phrase.\n" +
+                           "Each of you will take turns trying to find what it is one letter at a time.\n" +
+                            "Make sure you only enter a single letter! Otherwise you forfeit your turn.\n" +
+                            "No special characters, either. Letters only!\n" +
+                            "Is everyone ready? Let's get started!\n");
 
         Turn findGame = new Turn();
         Phrases gamePhrase = new Phrases();
         gamePhrase.setGamePhrase(gameHost.getHostPhrase());
         boolean roundEnd = false;
-        //boolean playerWin = false;
         boolean gameEnd = false;
         boolean continueTurn = false;
 
@@ -65,46 +64,51 @@ public class GamePlay
             {
                 for(int x = 0; x < currentPlayers.length; x++)
                 {
-                    do
+                    continueTurn = false;
+                    while(continueTurn == true);
                     {
                         continueTurn = findGame.takeTurn(currentPlayers[x], gameHost);
-                    }
-                    while(continueTurn == true);
-                    if(gamePhrase.getGamePhrase().equals(gamePhrase.getPlayingPhrase()))
-                    {
-                        Physical roundPrize = new Physical();
-                        String prizeWon = roundPrize.receivePrize();
-                        System.out.println("Congratulations on completing the phrase, " + 
-                                            currentPlayers[x].getName() + "! The prize for this round is " +
-                                            "this " +  prizeWon + "!");
-                        if(currentPlayers[x].getPrize() == null)
+                    
+                        if(gamePhrase.getGamePhrase().equals(gamePhrase.getPlayingPhrase()))
                         {
-                            currentPlayers[x].setPrize(prizeWon);
-                        }
-                        else
-                        {
-                            System.out.println("Sorry, you can only have one prize at a time.");
-                            System.out.print("Do you want to swap it out? (Y/N) >> ");
-                            String prizeSwap = keyboard.nextLine();
-                            if((Character.toLowerCase(prizeSwap.charAt(0)) == 'y'))
+                            roundEnd = true;
+                            Physical roundPrize = new Physical();
+                            String prizeWon = roundPrize.receivePrize();
+                            System.out.println("Congratulations on completing the phrase, " + 
+                                                currentPlayers[x].getName() + "!\nThe prize for this round is " +
+                                                "this\n" +  prizeWon + "!");
+                            if(currentPlayers[x].getPrize() == null)
                             {
                                 currentPlayers[x].setPrize(prizeWon);
                             }
+                            else
+                            {
+                                System.out.println("It looks like you already have a prize. " +
+                                                    "Sorry, but you can only keep one at a time.");
+                                System.out.print("Do you want to swap it out? (Y/N) >> ");
+                                String prizeSwap = keyboard.nextLine();
+                                if((Character.toLowerCase(prizeSwap.charAt(0)) == 'y'))
+                                {
+                                    currentPlayers[x].setPrize(prizeWon);
+                                }
+                            }
+                            break;
                         }
-                        roundEnd = true;
-                        break;
-                    }
+                       
+                    }  
+
                 }
             }
 
-            System.out.print("Shall we continue playing? (Y/N) >> ");
+            System.out.print("\nShall we continue playing? (Y/N) >> ");
             String contPlay = keyboard.nextLine();
             if((Character.toLowerCase(contPlay.charAt(0)) == 'y'))
             {
                 gamePhrase.setGamePhrase(gameHost.getHostPhrase());
                 roundEnd = false;
                 gameEnd = false;
-                System.out.println(gameHost.getName() + ": On to the next round!\n");
+                System.out.println(gameHost.getName() + ": On to the next round!");
+                System.out.println("Here is the new phrase:");
             }
             else
             {   
@@ -114,10 +118,14 @@ public class GamePlay
                 {
                     if(currentPlayers[x].getPrize() == null)
                     {
-                        System.out.println(currentPlayers[x].getName() + "...had a good time.");
+                        System.out.println(currentPlayers[x].getName() + "won" +
+                        "...uhm, they had a good time.");
                     }
-                    System.out.println(currentPlayers[x].getName() + " won this" +
+                    else
+                    {
+                    System.out.println(currentPlayers[x].getName() + " won a(n) " +
                                     currentPlayers[x].getPrize() + ".");
+                    }
                 }
                 System.out.println(" Thank you for playing!\n");
             }

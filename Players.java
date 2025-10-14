@@ -34,7 +34,7 @@ public class Players extends Person
     }
     public String getPrize()
     {
-        return
+        return prize;
     }
 
     @Override

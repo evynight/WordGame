@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Random;
 
 public class Turn
 {
@@ -19,25 +18,33 @@ public class Turn
         {
             if(gamePhrase.findLetters(playerChoice))
             {
-                System.out.println("Looks like we have a(n) " + playerChoice + "!" + 
-                                    "It's still your turn.");
+                System.out.println("Looks like we have a(n) " + playerChoice + "!");
+                System.out.println("It's still your turn!");
                 return true;
             }
             else
             {
-                System.out.println("Too bad, looks like there isn't a(n) "+ playerChoice +
-                                    "Next player's turn!");
+                System.out.println("Too bad, looks like there isn't a(n) "+ playerChoice + ".");
+                System.out.println("Next player's turn!");
                 return false;
             }
         }
         catch(MultipleLettersException m)
         {
             System.out.println(m.getMessage() + ". Sorry, that means your turn is up.");
+            System.out.println("Next player's turn!");
             return false;
         }
         catch(NumberOrSymbolException i)
         {
-            System.out.println(i.getMessage() + "Sorry, that means your turn is up.");
+            System.out.println(i.getMessage() + ". Sorry, that means your turn is up. "); 
+            System.out.println("Next player's turn!");
+            return false;
+        }
+        catch(IndexOutOfBoundsException o)
+        {
+            System.out.println("Erm...Hm. I guess that means your turn is over.");
+            System.out.println("Next player's turn!");
             return false;
         }
     }

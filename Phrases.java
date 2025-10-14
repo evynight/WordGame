@@ -28,7 +28,7 @@ public class Phrases
     {
         return playingPhrase.toString();
     }
-    public boolean findLetters(String g) throws MultipleLettersException, NumberOrSymbolException
+    public boolean findLetters(String g) throws MultipleLettersException, NumberOrSymbolException, IndexOutOfBoundsException
     {
         String guess = g;
         char fillIn = guess.charAt(0);
@@ -48,7 +48,7 @@ public class Phrases
             {
                 if(Character.toLowerCase(gamePhrase.charAt(y)) == Character.toLowerCase(fillIn))
                 {
-                    playingPhrase.setCharAt(y, fillIn);
+                    playingPhrase.setCharAt(y, gamePhrase.charAt(y));
                 }
             }
             return true;
