@@ -4,6 +4,13 @@ public class GamePlay
 {
     public static void main(String[] args)
     {
+        GUI game = new GUI();
+        final int WIDTH = 400;
+        final int HEIGHT = 350;
+        game.setSize(WIDTH, HEIGHT);
+        game.setVisible(true);
+
+        /**
         String hostFirstName = "Keyboard";
         String hostLastName = "Karl";
         String enterLast;
@@ -129,6 +136,6 @@ public class GamePlay
                 }
                 System.out.println(" Thank you for playing!\n");
             }
-        }
+        }*/
     }
 }
