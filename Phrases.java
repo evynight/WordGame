@@ -18,7 +18,7 @@ public class Phrases
 
         for(int x = 0; x < gamePhrase.length(); x++)
         {
-            if(Character.isLetterOrDigit(playingPhrase.charAt(x)))
+            if(Character.isLetter(playingPhrase.charAt(x)))
             {
                 playingPhrase.setCharAt(x, '_');
             }

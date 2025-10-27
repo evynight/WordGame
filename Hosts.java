@@ -1,14 +1,6 @@
-import java.util.Random;
 public class Hosts extends Person
 {
-    private String[] hostPhrase = {"Lorem ipsum dolor sit amet",
-                                "Not all who wander are lost",
-                                "There is always a bigger fish",
-                                "It is snowing on Mount Fuji",
-                                "Life finds a way",
-                                "See you Space Cowboy",
-                                "Believe in your dreams",
-                                "Taking a day trip out of town"};
+    private String hostPhrase = "";
 
     public Hosts()
     {
@@ -22,11 +14,12 @@ public class Hosts extends Person
     {
         super(f, l);
     }
-    
+    public void setHostPhrase(String s)
+    {
+        hostPhrase = s;
+    }
     public String getHostPhrase()
     {
-        Random randomNum= new Random();
-        int randPhrase = randomNum.nextInt(5);
-        return hostPhrase[randPhrase];
+        return hostPhrase;
     }
 }

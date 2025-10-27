@@ -1,39 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-public class GUI extends JFrame implements ActionListener
+public class GUI extends JFrame
+    implements ActionListener, ItemListener
 {
-    /**
-    components needed:
-    JLabel that lists current players
-    JButton that makes new player w/ JOptionPane
-    JLabel for current host
-    JButton to make host and gamePhrase w/ JOptionPane
-    JLabel to show current playingPhrase
-    JButton that starts player turns
-
-    JOptionPane for if player correct, winnings, ect
-    JOptionPane for play again
-    Above two may not need to be in GUI?
-    */
-
-    /**
-    Array for players in game?
-    host object?
-     */
     private final int MAX_PLAYERS = 5;
     private int playerCount = 0;
-    StringBuilder playerList = new StringBuilder("Current Players: ");
-    Players[] currentPlayers = new Players[MAX_PLAYERS];
-    Hosts currentHost;
+    private StringBuilder playerList = new StringBuilder("Current Players: ");
+    Players[] players = new Players[MAX_PLAYERS];
+    Hosts gameHost;
+    Phrases gamePhrase = new Phrases();
 
-    JLabel pListLabel = new JLabel(playerList.toString());
+    JLabel pListLabel = new JLabel("No players yet");
     JButton pAddButton = new JButton("Add Player");
-    JLabel hLabel = new JLabel("[Host Name]");
-    JButton hostButton = new JButton("Add host and phrase");
-    JLabel playPhraseLabel = new JLabel("[Playing Phrase]");
-    JButton turnButton = new JButton("Start turn");
+    JLabel hLabel = new JLabel("No host entered yet");
+    JButton hostButton = new JButton("Add host");
+    JLabel gamePhraseLabel = new JLabel("[Playing Phrase]");
+    JButton startButton = new JButton("Start game");
     public GUI()
     {
         super("Phrase Finders");
@@ -43,24 +26,27 @@ public class GUI extends JFrame implements ActionListener
         add(pAddButton);
         add(hLabel);
         add(hostButton);
-        add(playPhraseLabel);
-        add(turnButton);
+        add(gamePhraseLabel);
+        add(startButton);
 
         pAddButton.addActionListener(this);
         hostButton.addActionListener(this);
-        turnButton.addActionListener(this);
+        startButton.addActionListener(this);
+        pAddButton.addItemListener(this);
+        hostButton.addItemListener(this);
 
+        startButton.setEnabled(false);
     }
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(ActionEvent action)
     {
-        Object source = e.getSource();
+        Object source = action.getSource();
 
         if(source == pAddButton)
         {
             if(playerCount == MAX_PLAYERS)
             {
-                JOptionPane.showMessageDialog(this, "No more players can be added", "Max players reached",
+                JOptionPane.showMessageDialog(this, "No more players can be added.", "Max players reached",
                     JOptionPane.ERROR_MESSAGE);
             }
             else
@@ -70,7 +56,7 @@ public class GUI extends JFrame implements ActionListener
                 int entLast;
                 
                 fName = JOptionPane.showInputDialog(this, "Enter player's first name", 
-                    "Player Name", JOptionPane.INFORMATION_MESSAGE);
+                    "New Player", JOptionPane.INFORMATION_MESSAGE);
                 if(fName != null)
                 {
                     entLast = JOptionPane.showConfirmDialog(this, "Would you like to enter a last name?", "",
@@ -78,26 +64,130 @@ public class GUI extends JFrame implements ActionListener
                     if(entLast == JOptionPane.YES_OPTION)
                     {
                         lName = JOptionPane.showInputDialog(this, "Enter player's last name", 
-                        "Player Name", JOptionPane.INFORMATION_MESSAGE);
+                        "New Player", JOptionPane.INFORMATION_MESSAGE);
                         if(lName != null)
                         {
-                            currentPlayers[playerCount] = new Players(fName, lName);
+                            players[playerCount] = new Players(fName, lName);
+                            playerList.append(players[playerCount].getName() + " | ");
+                            pListLabel.setText(playerList.toString());
+                            JOptionPane.showMessageDialog(this, players[playerCount].getName() +
+                            " has been added to the game.", "New Player", JOptionPane.INFORMATION_MESSAGE);
+                            playerCount++;
                         }
                         else
                         {
-                            currentPlayers[playerCount] = new Players(fName);
+                            JOptionPane.showMessageDialog(this, "Player addition canceled.", "",
+                                JOptionPane.ERROR_MESSAGE);
                         }
-                        playerList.append(currentPlayers[playerCount].getName() + " | ");
                     }
                     else
                     {
-                        currentPlayers[playerCount] = new Players(fName);
-                        playerList.append(currentPlayers[playerCount].getName() + " | ");
+                        players[playerCount] = new Players(fName);
+                        playerList.append(players[playerCount].getName() + " | ");
+                        pListLabel.setText(playerList.toString());
+                        JOptionPane.showMessageDialog(this, players[playerCount].getName() +
+                        " has been added to the game.", "New Player", JOptionPane.INFORMATION_MESSAGE);
+                        playerCount++;
                     }
-                    pListLabel.setText(playerList.toString());
-                    playerCount++;
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Player addition canceled.", "", JOptionPane.ERROR_MESSAGE);
+                }
+            }    
+        }
+        if(source == hostButton)
+        {
+            String fName = null;
+            String lName = null;
+
+            fName = JOptionPane.showInputDialog(this, "Enter host's first name:",
+                "New Host", JOptionPane.INFORMATION_MESSAGE);
+            if(fName != null)
+            {
+                lName = JOptionPane.showInputDialog(this, "Enter host's last name:",
+                    "New Host", JOptionPane.INFORMATION_MESSAGE);
+                if(lName == null)
+                {
+                    JOptionPane.showMessageDialog(this, "Host additon canceled.",
+                    "New Host", JOptionPane.ERROR_MESSAGE);
                 }
             }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Host additon canceled.", "New Host",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+            if(fName != null && lName != null)
+            {
+                String setPhrase;
+                setPhrase = JOptionPane.showInputDialog(this, "Write a phrase for players to guess:" +
+                    "\n(Make sure to not to include any numbers)",
+                    "New Host", JOptionPane.INFORMATION_MESSAGE);
+                if(setPhrase != null)
+                {
+                    boolean goodPhrase = false;
+                    boolean hasDigit = false;
+                    while(goodPhrase != true)
+                    {
+                        for(int x =0; x < setPhrase.length(); x++)
+                        {
+                            if(Character.isDigit(setPhrase.charAt(x)))
+                            {
+                                hasDigit = true;
+                            }
+                        }
+                        if(hasDigit == true)
+                        {
+                            JOptionPane.showMessageDialog(this, "That phrase contains a number.",
+                                "New Host", JOptionPane.ERROR_MESSAGE);
+                            setPhrase = JOptionPane.showInputDialog(this, "Please try again:",
+                                "New Host", JOptionPane.INFORMATION_MESSAGE);
+                                if(setPhrase == null)
+                                {
+                                    JOptionPane.showMessageDialog(this, "Host and phrase addition canceled.",
+                                "New Host", JOptionPane.ERROR_MESSAGE);
+                                break;
+                                }
+                            hasDigit = false;
+                        }
+                        else
+                        {
+                            goodPhrase = true;
+                            gameHost = new Hosts(fName, lName);
+                            gameHost.setHostPhrase(setPhrase);
+                            gamePhrase.setGamePhrase(gameHost.getHostPhrase());
+                            gamePhrase.setPlayingPhrase();
+                            hLabel.setText(gameHost.getName());
+                            gamePhraseLabel.setText(gamePhrase.getPlayingPhrase());
+                            hostButton.setEnabled(false);
+                            JOptionPane.showMessageDialog(this, gameHost.getName() + " will be your host for this game.",
+                                "New Host", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Host and phrase addition canceled.",
+                        "New Host", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        if(source == pAddButton && source == hostButton)
+        {
+            startButton.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent item)
+    {
+        Object source = item.getSource();
+
+        if(source == pAddButton && source == hostButton)
+        {
+            startButton.setEnabled(true);
         }
     }
 }
