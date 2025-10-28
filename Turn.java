@@ -1,50 +1,53 @@
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Turn
 {
     private String playerChoice;
-    Scanner keyboard = new Scanner(System.in);
     Phrases gamePhrase = new Phrases();
 
     public boolean takeTurn(Players player, Hosts host)
     {
-        System.out.println(gamePhrase.getPlayingPhrase());
-        System.out.print(host.getName() + ": Choose a letter, " + 
-                            player.getName() + " >> ");
-        
-        playerChoice = keyboard.nextLine();
+        playerChoice = JOptionPane.showInputDialog(null, gamePhrase.getPlayingPhrase() +
+            "\n" +  host.getName() + ": Choose a letter, " +  player.getName() + ".",
+            player.getName() + "'s Turn", JOptionPane.QUESTION_MESSAGE);
 
         try
         {
             if(gamePhrase.findLetters(playerChoice))
             {
-                System.out.println("Looks like we have a(n) " + playerChoice + "!");
-                System.out.println("It's still your turn!");
+                JOptionPane.showMessageDialog(null, "Looks like we have a(n) " + playerChoice + "!",
+                    player.getName() + "'s Turn", JOptionPane.INFORMATION_MESSAGE);
                 return true;
             }
             else
             {
-                System.out.println("Too bad, looks like there isn't a(n) "+ playerChoice + ".");
-                System.out.println("Next player's turn!");
+                JOptionPane.showMessageDialog(null, "Too bad, looks like there isn't a(n) "+ playerChoice + ".",
+                    player.getName() + "'s Turn", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
         }
         catch(MultipleLettersException m)
         {
-            System.out.println(m.getMessage() + ". Sorry, that means your turn is up.");
-            System.out.println("Next player's turn!");
+            JOptionPane.showMessageDialog(null, m.getMessage() + ". Sorry, that means your turn is up.",
+                    player.getName() + "'s Turn", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         catch(NumberOrSymbolException i)
         {
-            System.out.println(i.getMessage() + ". Sorry, that means your turn is up. "); 
-            System.out.println("Next player's turn!");
+            JOptionPane.showMessageDialog(null, i.getMessage() + ". Sorry, that means your turn is up. ",
+                player.getName() + "'s Turn", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         catch(IndexOutOfBoundsException o)
         {
-            System.out.println("Erm...Hm. I guess that means your turn is over.");
-            System.out.println("Next player's turn!");
+            JOptionPane.showMessageDialog(null, "Erm...Hm. I guess that means your turn is over.",
+                player.getName() + "'s Turn", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        catch(NullPointerException n)
+        {
+            JOptionPane.showMessageDialog(null, "Skipping your turn? Well, I suppose that's fine.",
+                player.getName() + "'s Turn", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
