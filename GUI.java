@@ -1,8 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class GUI extends JFrame
-    implements ActionListener, ItemListener
+public class GUI extends JFrame implements ActionListener
 {
     private final int MAX_PLAYERS = 5;
     private int playerCount = 0;
@@ -10,6 +9,8 @@ public class GUI extends JFrame
     Players[] players = new Players[MAX_PLAYERS];
     Hosts gameHost;
     Phrases gamePhrase = new Phrases();
+    boolean playerReady;
+    boolean hostReady;
 
     JLabel pListLabel = new JLabel("No players yet");
     JButton pAddButton = new JButton("Add Player");
@@ -32,9 +33,6 @@ public class GUI extends JFrame
         pAddButton.addActionListener(this);
         hostButton.addActionListener(this);
         startButton.addActionListener(this);
-        pAddButton.addItemListener(this);
-        hostButton.addItemListener(this);
-
         startButton.setEnabled(false);
     }
     @Override
@@ -73,6 +71,11 @@ public class GUI extends JFrame
                             JOptionPane.showMessageDialog(this, players[playerCount].getName() +
                             " has been added to the game.", "New Player", JOptionPane.INFORMATION_MESSAGE);
                             playerCount++;
+                            playerReady = true;
+                            if(playerReady == true && hostReady == true)
+                            {
+                                startButton.setEnabled(true);
+                            }
                         }
                         else
                         {
@@ -88,6 +91,11 @@ public class GUI extends JFrame
                         JOptionPane.showMessageDialog(this, players[playerCount].getName() +
                         " has been added to the game.", "New Player", JOptionPane.INFORMATION_MESSAGE);
                         playerCount++;
+                        playerReady = true;
+                        if(playerReady == true && hostReady == true)
+                        {
+                            startButton.setEnabled(true);
+                        }
                     }
                 }
                 else
@@ -164,6 +172,11 @@ public class GUI extends JFrame
                             hostButton.setEnabled(false);
                             JOptionPane.showMessageDialog(this, gameHost.getName() + " will be your host for this game.",
                                 "New Host", JOptionPane.INFORMATION_MESSAGE);
+                            hostReady = true;
+                            if(hostReady == true && playerReady == true)
+                            {
+                                startButton.setEnabled(true);
+                            }
                         }
                     }
                 }
@@ -174,17 +187,6 @@ public class GUI extends JFrame
                 }
             }
         }
-        if(source == pAddButton && source == hostButton)
-        {
-            startButton.setEnabled(true);
-        }
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent item)
-    {
-        Object source = item.getSource();
-
         if(source == pAddButton && source == hostButton)
         {
             startButton.setEnabled(true);
