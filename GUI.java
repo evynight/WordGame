@@ -12,6 +12,9 @@ public class GUI extends JFrame implements ActionListener
     boolean playerReady;
     boolean hostReady;
 
+    JMenuBar menuBar = new JMenuBar();
+    JMenu gameMenu = new JMenu("Game");
+
     JLabel pListLabel = new JLabel("[Players]");
     JButton pAddButton = new JButton("Add Player");
     JLabel hLabel = new JLabel("[Host]");
@@ -23,6 +26,11 @@ public class GUI extends JFrame implements ActionListener
         super("Phrase Finders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
+
+        setJMenuBar(menuBar);
+        menuBar.add(gameMenu);
+        gameMenu.setMnemonic('G');
+
         add(pListLabel);
         add(pAddButton);
         add(hLabel);
