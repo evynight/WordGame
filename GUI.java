@@ -14,11 +14,11 @@ public class GUI extends JFrame implements ActionListener
 
     JMenuBar menuBar = new JMenuBar();
     JMenu gameMenu = new JMenu("Game");
+    JMenuItem playerAdd = new JMenuItem("Add Player");
+    JMenuItem hostAdd = new JMenuItem("Add Host");
 
     JLabel pListLabel = new JLabel("[Players]");
-    JButton pAddButton = new JButton("Add Player");
     JLabel hLabel = new JLabel("[Host]");
-    JButton hostButton = new JButton("Add host");
     JLabel gamePhraseLabel = new JLabel("[Playing Phrase]");
     JButton startButton = new JButton("Start game");
     public GUI()
@@ -29,17 +29,17 @@ public class GUI extends JFrame implements ActionListener
 
         setJMenuBar(menuBar);
         menuBar.add(gameMenu);
+        gameMenu.add(playerAdd);
+        gameMenu.add(hostAdd);
         gameMenu.setMnemonic('G');
 
         add(pListLabel);
-        add(pAddButton);
         add(hLabel);
-        add(hostButton);
         add(gamePhraseLabel);
         add(startButton);
 
-        pAddButton.addActionListener(this);
-        hostButton.addActionListener(this);
+        playerAdd.addActionListener(this);
+        hostAdd.addActionListener(this);
         startButton.addActionListener(this);
         startButton.setEnabled(false);
     }
@@ -48,7 +48,7 @@ public class GUI extends JFrame implements ActionListener
     {
         Object source = action.getSource();
 
-        if(source == pAddButton)
+        if(source == playerAdd)
         {
             if(playerCount == MAX_PLAYERS)
             {
@@ -112,7 +112,7 @@ public class GUI extends JFrame implements ActionListener
                 }
             }    
         }
-        if(source == hostButton)
+        if(source == hostAdd)
         {
             String fName = null;
             String lName = null;
@@ -177,7 +177,7 @@ public class GUI extends JFrame implements ActionListener
                             gamePhrase.setPlayingPhrase();
                             hLabel.setText("Host: " + gameHost.getName());
                             gamePhraseLabel.setText("Current Phrase: " + gamePhrase.getPlayingPhrase());
-                            hostButton.setEnabled(false);
+                            hostAdd.setEnabled(false);
                             JOptionPane.showMessageDialog(this, gameHost.getName() + " will be your host for this game.",
                                 "New Host", JOptionPane.PLAIN_MESSAGE);
                             hostReady = true;
@@ -287,8 +287,8 @@ public class GUI extends JFrame implements ActionListener
                             "'s Prize", JOptionPane.PLAIN_MESSAGE);
                         }
                     }
-                    pAddButton.setEnabled(false);
-                    hostButton.setEnabled(false);
+                    playerAdd.setEnabled(false);
+                    hostAdd.setEnabled(false);
                     startButton.setEnabled(false);
                 }
             }
