@@ -14,10 +14,12 @@ public class GUI extends JFrame implements ActionListener
 
     JMenuBar menuBar = new JMenuBar();
     JMenu gameMenu = new JMenu("Game");
+    JMenu aboutMenu = new JMenu("About");
     JMenuItem playerAdd = new JMenuItem("Add Player");
     JMenuItem hostAdd = new JMenuItem("Add Host");
+    JMenuItem aboutLayout = new JMenuItem("Layout");
 
-    JPanel participants = new JPanel(); // This will be BoxLayout
+    JPanel participants = new JPanel();
     JPanel hostPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JPanel[] playerPanes = new JPanel[MAX_PLAYERS];
     JLabel hFirstName = new JLabel();
@@ -25,7 +27,7 @@ public class GUI extends JFrame implements ActionListener
     JLabel[] pFirstName = new JLabel[MAX_PLAYERS];
     JLabel[] pLastName = new JLabel[MAX_PLAYERS];
     private final int PREF_PARTIC_WIDTH = 120; 
-    private final int PREF_PARTIC_HEIGHT = 40;
+    private final int PREF_PARTIC_HEIGHT = 70;
     private final int MAX_PARTIC_WIDTH = 160;
     private final int MAX_PARTIC_HEIGHT = 85;
 
@@ -46,13 +48,15 @@ public class GUI extends JFrame implements ActionListener
         super("Phrase Finders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        
 
         setJMenuBar(menuBar);
         menuBar.add(gameMenu);
+        menuBar.add(aboutMenu);
         gameMenu.add(playerAdd);
         gameMenu.add(hostAdd);
+        aboutMenu.add(aboutLayout); 
         gameMenu.setMnemonic('G');
+        aboutMenu.setMnemonic('A');
 
         participants.setLayout(new BoxLayout(participants, BoxLayout.Y_AXIS));
         add(participants, BorderLayout.LINE_START);
@@ -76,7 +80,6 @@ public class GUI extends JFrame implements ActionListener
             participants.add(Box.createVerticalGlue());
             participants.add(playerPanes[x]);
         }
-        //participants.add(pListLabel);
         
         add(playArea);
         playArea.add(gamePhraseLabel, BorderLayout.LINE_START);
@@ -91,6 +94,7 @@ public class GUI extends JFrame implements ActionListener
 
         playerAdd.addActionListener(this);
         hostAdd.addActionListener(this);
+        aboutLayout.addActionListener(this);
         startButton.addActionListener(this);
         startButton.setEnabled(false);
     }
@@ -348,6 +352,18 @@ public class GUI extends JFrame implements ActionListener
                     startButton.setEnabled(false);
                 }
             }
+        }
+        if(source == aboutLayout)
+        {
+            JOptionPane.showMessageDialog(this, "I chose a border layout for several " +
+                "reasons. I have some experience with JavaFX from my\nprevious Java " + 
+                "class, and it feels the most similar to the UI components I remember " + 
+                "working\nwith. I thought that utilizing layout's regions would be perfect " +
+                "for a relatively simple, largely\ntext-based game like this assignment. " +
+                "And truthfully, I thought working with it might be the\nquickest. I " +
+                "really had wanted to try out GridBagLayout, but given my tendency to fall " +
+                "behind,\nI didn't want to risk falling any further behind.",
+                "Layout", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
