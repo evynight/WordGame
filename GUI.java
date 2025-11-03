@@ -1,31 +1,52 @@
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 public class GUI extends JFrame implements ActionListener
 {
     private final int MAX_PLAYERS = 5;
     private int playerCount = 0;
-    private StringBuilder playerList = new StringBuilder("Current Players: ");
+    private boolean playerReady;
+    private boolean hostReady;
     Players[] players = new Players[MAX_PLAYERS];
     Hosts gameHost;
     Phrases gamePhrase = new Phrases();
-    boolean playerReady;
-    boolean hostReady;
 
     JMenuBar menuBar = new JMenuBar();
     JMenu gameMenu = new JMenu("Game");
     JMenuItem playerAdd = new JMenuItem("Add Player");
     JMenuItem hostAdd = new JMenuItem("Add Host");
 
-    JLabel pListLabel = new JLabel("[Players]");
-    JLabel hLabel = new JLabel("[Host]");
+    JPanel participants = new JPanel(); // This will be BoxLayout
+    JPanel hostPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel[] playerPanes = new JPanel[MAX_PLAYERS];
+    JLabel hFirstName = new JLabel();
+    JLabel hLastName = new JLabel();
+    JLabel[] pFirstName = new JLabel[MAX_PLAYERS];
+    JLabel[] pLastName = new JLabel[MAX_PLAYERS];
+    private final int PREF_PARTIC_WIDTH = 120; 
+    private final int PREF_PARTIC_HEIGHT = 40;
+    private final int MAX_PARTIC_WIDTH = 160;
+    private final int MAX_PARTIC_HEIGHT = 85;
+
+    JPanel playArea = new JPanel();
     JLabel gamePhraseLabel = new JLabel("[Playing Phrase]");
+    private final int PREF_PLAY_WIDTH = 500; 
+    private final int PREF_PLAY_HEIGHT = 400;
+    private final int MAX_PLAY_WIDTH = 500;
+    private final int MAX_PLAY_HEIGHT = 400;
+
+    JPanel startPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     JButton startButton = new JButton("Start game");
+    
+    Border simpleBorder = BorderFactory.createLineBorder(Color.black);
+
     public GUI()
     {
         super("Phrase Finders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
+        
 
         setJMenuBar(menuBar);
         menuBar.add(gameMenu);
@@ -33,10 +54,40 @@ public class GUI extends JFrame implements ActionListener
         gameMenu.add(hostAdd);
         gameMenu.setMnemonic('G');
 
-        add(pListLabel);
-        add(hLabel);
-        add(gamePhraseLabel);
-        add(startButton);
+        participants.setLayout(new BoxLayout(participants, BoxLayout.Y_AXIS));
+        add(participants, BorderLayout.LINE_START);
+        participants.add(hostPane);
+        hostPane.add(hFirstName);
+        hostPane.add(hLastName);
+        hostPane.setBorder(BorderFactory.createTitledBorder(simpleBorder,"Game Host"));
+        hostPane.setPreferredSize(new Dimension(PREF_PARTIC_WIDTH, PREF_PARTIC_HEIGHT));
+        hostPane.setMaximumSize(new Dimension(MAX_PARTIC_WIDTH, MAX_PARTIC_HEIGHT));
+
+        for(int x = 0; x < MAX_PLAYERS; x++)
+        {
+            playerPanes[x] = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            pFirstName[x] = new JLabel();
+            pLastName[x] = new JLabel();
+            playerPanes[x].setBorder(BorderFactory.createTitledBorder(simpleBorder, "Player " + (x + 1)));
+            playerPanes[x].add(pFirstName[x]);
+            playerPanes[x].add(pLastName[x]);
+            playerPanes[x].setPreferredSize(new Dimension(PREF_PARTIC_WIDTH, PREF_PARTIC_HEIGHT));
+            playerPanes[x].setMaximumSize(new Dimension(MAX_PARTIC_WIDTH, MAX_PARTIC_HEIGHT));
+            participants.add(Box.createVerticalGlue());
+            participants.add(playerPanes[x]);
+        }
+        //participants.add(pListLabel);
+        
+        add(playArea);
+        playArea.add(gamePhraseLabel, BorderLayout.LINE_START);
+        playArea.setBorder(simpleBorder);
+        playArea.setPreferredSize(new Dimension(PREF_PLAY_WIDTH, PREF_PLAY_HEIGHT));
+        playArea.setMaximumSize(new Dimension(MAX_PLAY_WIDTH, MAX_PLAY_HEIGHT));
+        
+        add(startPanel, BorderLayout.PAGE_END);
+        startPanel.add(startButton);
+        
+        this.pack();
 
         playerAdd.addActionListener(this);
         hostAdd.addActionListener(this);
@@ -74,8 +125,11 @@ public class GUI extends JFrame implements ActionListener
                         if(lName != null)
                         {
                             players[playerCount] = new Players(fName, lName);
-                            playerList.append(players[playerCount].getName() + " | ");
-                            pListLabel.setText(playerList.toString());
+                            pFirstName[playerCount].setText(players[playerCount].getFirstName());
+                            pLastName[playerCount].setText(players[playerCount].getLastName());
+                            playerPanes[playerCount].invalidate();
+                            playerPanes[playerCount].validate();
+                            playerPanes[playerCount].repaint();
                             JOptionPane.showMessageDialog(this, players[playerCount].getName() +
                             " has been added to the game.", "New Player", JOptionPane.PLAIN_MESSAGE);
                             playerCount++;
@@ -94,8 +148,7 @@ public class GUI extends JFrame implements ActionListener
                     else
                     {
                         players[playerCount] = new Players(fName);
-                        playerList.append(players[playerCount].getName() + " | ");
-                        pListLabel.setText(playerList.toString());
+                            pFirstName[playerCount].setText(players[playerCount].getFirstName());
                         JOptionPane.showMessageDialog(this, players[playerCount].getName() +
                         " has been added to the game.", "New Player", JOptionPane.PLAIN_MESSAGE);
                         playerCount++;
@@ -175,9 +228,12 @@ public class GUI extends JFrame implements ActionListener
                             gameHost.setHostPhrase(setPhrase);
                             gamePhrase.setGamePhrase(gameHost.getHostPhrase());
                             gamePhrase.setPlayingPhrase();
-                            hLabel.setText("Host: " + gameHost.getName());
-                            gamePhraseLabel.setText("Current Phrase: " + gamePhrase.getPlayingPhrase());
+                            hFirstName.setText(gameHost.getFirstName());
+                            hLastName.setText(gameHost.getLastName());
                             hostAdd.setEnabled(false);
+                            hostPane.invalidate();
+                            hostPane.validate();
+                            hostPane.repaint();
                             JOptionPane.showMessageDialog(this, gameHost.getName() + " will be your host for this game.",
                                 "New Host", JOptionPane.PLAIN_MESSAGE);
                             hostReady = true;
