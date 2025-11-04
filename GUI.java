@@ -2,7 +2,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-public class GUI extends JFrame implements ActionListener
+public class GUI extends JFrame
+    implements ActionListener, ItemListener
 {
     private final int MAX_PLAYERS = 5;
     private int playerCount = 0;
@@ -35,13 +36,15 @@ public class GUI extends JFrame implements ActionListener
     private final int PREF_PLAY_HEIGHT = 400;
     private final int MAX_PLAY_WIDTH = 500;
     private final int MAX_PLAY_HEIGHT = 400;
+    private static boolean saveMessages;
     JPanel playArea = new JPanel();
     JPanel phrasePane = new JPanel();
     JLabel gamePhraseLabel = new JLabel("[Playing Phrase]");
-    static JTextArea gameMessages = new JTextArea(20, 45);//PREF_PLAY_WIDTH, SCROLL_HEIGHT);
+    static JTextArea gameMessages = new JTextArea(20, 45);
     JScrollPane scrollPane = new JScrollPane(gameMessages,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    JCheckBox saveCheck = new JCheckBox("Save Messages");
     
 
     JPanel startPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -49,7 +52,7 @@ public class GUI extends JFrame implements ActionListener
     
     Border simpleBorder = BorderFactory.createLineBorder(Color.black);
 
-    JButton testButton = new JButton("Testing TextArea");//Make sure to delete later
+    JButton testButton = new JButton("Testing");//Make sure to delete later
 
     public GUI()
     {
@@ -102,6 +105,7 @@ public class GUI extends JFrame implements ActionListener
         gameMessages.setWrapStyleWord(true);
         
         add(startPanel, BorderLayout.PAGE_END);
+        startPanel.add(saveCheck);
         startPanel.add(startButton);
         
         this.pack();
@@ -110,9 +114,12 @@ public class GUI extends JFrame implements ActionListener
         hostAdd.addActionListener(this);
         aboutLayout.addActionListener(this);
         startButton.addActionListener(this);
+        saveCheck.addItemListener(this);
+        saveCheck.setSelected(true);
+        
         startButton.setEnabled(false);
 
-        //startPanel.add(testButton);
+        startPanel.add(testButton); //DELETE BEFORE SUBMITTING
         testButton.addActionListener(this);
 
         gameMessages.setText("Welcome to Phrase Finders.\n\nAdd a host and one or more " +
@@ -381,13 +388,38 @@ public class GUI extends JFrame implements ActionListener
              * weeeeeeeeeeeeeehhhhhhhhh
              */
         }
-        if(source == testButton)
+        if(source == testButton) //Don't forget to delete
         {
-            System.out.println("This is for testing purposes");
+            System.out.println("saveMessages current state: " + saveMessages);
+        }
+    }
+    @Override
+    public void itemStateChanged(ItemEvent item)
+    {
+        Object source = item.getSource();
+        int checked = item.getStateChange();
+
+        if(source == saveCheck)
+        {
+            if(checked == ItemEvent.SELECTED)
+            {
+                saveMessages = true;
+            }
+            else
+            {
+                saveMessages = false;
+            }
         }
     }
     public static void addGameMessage(String s)
     {
-        gameMessages.append(s + "\n");
+        if(saveMessages == true)
+        {
+            gameMessages.append(s + "\n");
+        }
+        else
+        {
+            gameMessages.setText(s);
+        }
     }
 }
