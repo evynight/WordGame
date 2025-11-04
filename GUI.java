@@ -45,14 +45,11 @@ public class GUI extends JFrame
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     JCheckBox saveCheck = new JCheckBox("Save Messages");
-    
 
     JPanel startPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     JButton startButton = new JButton("Start game");
     
     Border simpleBorder = BorderFactory.createLineBorder(Color.black);
-
-    JButton testButton = new JButton("Testing");//Make sure to delete later
 
     public GUI()
     {
@@ -116,11 +113,10 @@ public class GUI extends JFrame
         startButton.addActionListener(this);
         saveCheck.addItemListener(this);
         saveCheck.setSelected(true);
+        saveCheck.setToolTipText("Check to retain previous messages when a new one is added. " +
+            "Uncheck to clear previous messages.");
         
         startButton.setEnabled(false);
-
-        startPanel.add(testButton); //DELETE BEFORE SUBMITTING
-        testButton.addActionListener(this);
 
         gameMessages.setText("Welcome to Phrase Finders.\n\nAdd a host and one or more " +
             "players to begin.\n");
@@ -380,17 +376,6 @@ public class GUI extends JFrame
                 "really had wanted to try out GridBagLayout, but given my tendency to fall " +
                 "behind,\nI didn't want to risk falling any further behind.",
                 "Layout", JOptionPane.INFORMATION_MESSAGE);
-            /*
-             * Man I'm so tired. I really get better at balancing full time work with classes.
-             * Staying up till 4AM or later every night is not susatainable at all
-             * like
-             * I'm probably gonna break if I keep this up too long
-             * weeeeeeeeeeeeeehhhhhhhhh
-             */
-        }
-        if(source == testButton) //Don't forget to delete
-        {
-            System.out.println("saveMessages current state: " + saveMessages);
         }
     }
     @Override
