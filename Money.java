@@ -7,13 +7,13 @@ public class Money implements Award
     {
         if(guess == true)
         {
-            System.out.println("Congratulations, " + player.getFirstName() +
+            GUI.addGameMessage("Congratulations, " + player.getFirstName() +
                             " " + player.getLastName() + "! You won!");
             return MONEYWIN;
         }
         else
         {
-            System.out.println("Oh, so sorry, " + player.getLastName() +
+            GUI.addGameMessage("Oh, so sorry, " + player.getLastName() +
                             " " + player.getLastName() + ". Seems you lost this time.");
             return -MONEYLOSE;
         }

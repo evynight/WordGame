@@ -21,14 +21,14 @@ public class Physical implements Award
     {
         if(guess == true)
         {
-            System.out.println("Surprise, " + player.getFirstName() +
+            GUI.addGameMessage("Surprise, " + player.getFirstName() +
                             " " + player.getLastName() + "! You won this round's " +
                             "bonus prize of this " + receivePrize() +"!");
             return 0;
         }
         else
         {
-            System.out.println("Oh, so sorry, " + player.getFirstName() +
+            GUI.addGameMessage("Oh, so sorry, " + player.getFirstName() +
                             " " + player.getLastName() + ". Looks like you missed this " +
                             "round's bonus prize of this " + receivePrize() + ".");
             return 0;
