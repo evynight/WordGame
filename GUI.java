@@ -19,6 +19,7 @@ public class GUI extends JFrame
     JMenuItem playerAdd = new JMenuItem("Add Player");
     JMenuItem hostAdd = new JMenuItem("Add Host");
     JMenuItem aboutLayout = new JMenuItem("Layout");
+    JMenuItem aboutAttrib = new JMenuItem("Attribution");//Don't forget to add function after adding img & sound
 
     private final int PREF_PARTIC_WIDTH = 120; 
     private final int PREF_PARTIC_HEIGHT = 70;
@@ -63,7 +64,8 @@ public class GUI extends JFrame
         gameMenu.add(playerAdd);
         gameMenu.addSeparator();
         gameMenu.add(hostAdd);
-        aboutMenu.add(aboutLayout); 
+        aboutMenu.add(aboutLayout);
+        aboutMenu.add(aboutAttrib); 
         gameMenu.setMnemonic('G');
         aboutMenu.setMnemonic('A');
 
