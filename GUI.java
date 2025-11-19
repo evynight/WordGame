@@ -2,6 +2,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.nio.file.*;
 public class GUI extends JFrame
     implements ActionListener, ItemListener
 {
@@ -112,6 +114,7 @@ public class GUI extends JFrame
         playerAdd.addActionListener(this);
         hostAdd.addActionListener(this);
         aboutLayout.addActionListener(this);
+        aboutAttrib.addActionListener(this);
         startButton.addActionListener(this);
         saveCheck.addItemListener(this);
         saveCheck.setSelected(true);
@@ -378,6 +381,41 @@ public class GUI extends JFrame
                 "really had wanted to try out GridBagLayout, but given my tendency to fall " +
                 "behind,\nI didn't want to risk falling any further behind.",
                 "Layout", JOptionPane.INFORMATION_MESSAGE);
+        }
+        if(source == aboutAttrib)
+        {
+        
+            FileSystem slash = FileSystems.getDefault();
+            Path relPath = Paths.get("Img-Aud" + slash.getSeparator() + "Attrib.txt");
+            Path absPath = relPath.toAbsolutePath();
+            String s = "";
+            StringBuilder sB = new StringBuilder("");
+
+            try
+            {
+                InputStream inputAttrib = new 
+                    BufferedInputStream(Files.newInputStream(absPath));
+                BufferedReader readAttrib = new 
+                    BufferedReader(new InputStreamReader(inputAttrib));
+                s = readAttrib.readLine();
+
+                while(s != null)
+                {
+                    System.out.println(s);
+                    sB.append(s + "\n");
+                    s = readAttrib.readLine();
+                }
+                readAttrib.close();
+
+                System.out.println("\n\nStringbulder result:\n" + sB.toString());
+                JOptionPane.showMessageDialog(this, sB.toString(), "Attribution", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Error: " + e);
+            }
+            
+
         }
     }
     @Override
