@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.*;
+import java.nio.file.FileSystem;
+
 public class GUI extends JFrame
     implements ActionListener, ItemListener
 {
@@ -21,7 +23,7 @@ public class GUI extends JFrame
     JMenuItem playerAdd = new JMenuItem("Add Player");
     JMenuItem hostAdd = new JMenuItem("Add Host");
     JMenuItem aboutLayout = new JMenuItem("Layout");
-    JMenuItem aboutAttrib = new JMenuItem("Attribution");//Don't forget to add function after adding img & sound
+    JMenuItem aboutAttrib = new JMenuItem("Attribution");
 
     private final int PREF_PARTIC_WIDTH = 120; 
     private final int PREF_PARTIC_HEIGHT = 70;
@@ -53,6 +55,8 @@ public class GUI extends JFrame
     JButton startButton = new JButton("Start game");
     
     Border simpleBorder = BorderFactory.createLineBorder(Color.black);
+
+    Sound sfx = new Sound();
 
     public GUI()
     {
@@ -164,6 +168,7 @@ public class GUI extends JFrame
                             addGameMessage(players[playerCount].getName() + " has been added to the game.");
                             playerCount++;
                             playerReady = true;
+                            sfx.playSound(Sound.PERSON_ADDED);
                             if(playerReady == true && hostReady == true)
                             {
                                 startButton.setEnabled(true);
@@ -181,6 +186,7 @@ public class GUI extends JFrame
                         addGameMessage(players[playerCount].getName() + " has been added to the game.");
                         playerCount++;
                         playerReady = true;
+                        sfx.playSound(Sound.PERSON_ADDED);
                         if(playerReady == true && hostReady == true)
                         {
                             startButton.setEnabled(true);
@@ -258,6 +264,7 @@ public class GUI extends JFrame
                             hostPane.repaint();
                             addGameMessage(gameHost.getName() + " will be your host for this game.");
                             hostReady = true;
+                            sfx.playSound(Sound.PERSON_ADDED);
                             if(hostReady == true && playerReady == true)
                             {
                                 startButton.setEnabled(true);
@@ -273,12 +280,13 @@ public class GUI extends JFrame
         }
         if(source == startButton)
         {
+            sfx.playSound(Sound.ROUND_START);
             gameMessages.setText("Welcome to a game of Phrase Finders!" + "\nI'm your host, " + gameHost.getName() + "." +
                 "\nI'm going to provide a secret phrase.\n" +
                 "Each of you will take turns trying to find what it is one letter at a time.\n" +
                 "Make sure you only enter a single letter! Otherwise you forfeit your turn.\n" +
                 "No special characters, either. Letters only!\n" +
-                "Is everyone ready? Let's get started!");
+                "Is everyone ready? Let's get started!\n");
 
             gamePhraseLabel.setText("Current Phrase: " + gamePhrase.getPlayingPhrase());
 
@@ -307,6 +315,7 @@ public class GUI extends JFrame
                                 addGameMessage("Congratulations on completing the phrase, " + 
                                     players[x].getName() + "!\nThe prize for this round is " +
                                     "this\n" +  prizeWon + "!");
+                                sfx.playSound(Sound.WIN);
 
                                 if(players[x].getPrize() == null)
                                 {
@@ -345,6 +354,7 @@ public class GUI extends JFrame
                     gamePhraseLabel.setText("Current Phrase: " + gamePhrase.getPlayingPhrase());
                     roundEnd = false;
                     gameEnd = false;
+                    sfx.playSound(Sound.ROUND_START);
                 }
                 else
                 {   

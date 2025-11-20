@@ -4,6 +4,7 @@ public class Turn
 {
     private String playerChoice;
     Phrases gamePhrase = new Phrases();
+    Sound sfx = new Sound();
 
     public boolean takeTurn(Players player, Hosts host)
     {
@@ -14,11 +15,13 @@ public class Turn
         {
             if(gamePhrase.findLetters(playerChoice))
             {
+                sfx.playSound(Sound.GUESS_RIGHT);
                 GUI.addGameMessage(host.getName() + ": Looks like we have a(n) " + playerChoice + "!");
                 return true;
             }
             else
             {
+                sfx.playSound(Sound.GUESS_WRONG);
                 GUI.addGameMessage(host.getName() + ": Too bad, looks like there isn't a(n) "+ playerChoice + ".");
                 return false;
             }
