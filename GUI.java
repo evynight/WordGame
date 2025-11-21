@@ -58,6 +58,10 @@ public class GUI extends JFrame
 
     Sound sfx = new Sound();
 
+    //TESTING
+    JMenuItem imageTest = new JMenuItem("Test Images");
+    //TESTING
+
     public GUI()
     {
         super("Phrase Finders");
@@ -129,6 +133,12 @@ public class GUI extends JFrame
 
         gameMessages.setText("Welcome to Phrase Finders.\n\nAdd a host and one or more " +
             "players to begin.\n");
+
+        //TESTING
+        gameMenu.add(imageTest);
+        imageTest.addActionListener(this);
+        //TESTING
+
     }
     @Override
     public void actionPerformed(ActionEvent action)
@@ -427,6 +437,14 @@ public class GUI extends JFrame
             
 
         }
+        //TESTING
+        if(source == imageTest)
+        {
+            System.out.println("Testing image display");
+            Physical testPrize = new Physical();
+            testPrize.showPrize();
+        }
+        //TESTING
     }
     @Override
     public void itemStateChanged(ItemEvent item)
